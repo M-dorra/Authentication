@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <img src="logo.png" alt="Logo" class="logo">
+        <header>Authentication</header>
+        <form id="loginform" name="loginform">
+            <div class="field email">
+                <div class="input-area">
+                    <input type="text" id="email" name="email" placeholder="Enter login" autocomplete="off">
+                    <div id="emailSuggestions"></div>
+                    <i id="env" class="icon fas fa-envelope"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                <div class="error error-txt">Username can't be blank</div>
+            </div>
+            <div class="field password">
+                <div class="input-area">
+                    <input id="password" name="password" type="password" placeholder="Enter password">
+                    <i id="togglePassword" class="icon fas fa-eye-slash"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                <div class="error error-txt">Password can't be blank</div>
+            </div>
+
+            <div class="pass-txt"><a href="forgot.html">Forgot password?</a></div>
+            <input type="submit" id="login" value="Login">
+        </form>
+        <div id="errorMessage" style="display: none; color: red;"></div>
+        <div class="sign-txt">Not yet a member? <a href="signup.html">Signup now</a></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("loginform");
+            const eField = form.querySelector(".email");
+            const eInput = eField.querySelector("input");
+            const pField = form.querySelector(".password");
+            const pInput = pField.querySelector("input");
+            const passwordInput = document.getElementById("password");
+            const togglePassword = document.getElementById("togglePassword");
+            const emailErrorIcon = document.querySelector(".email .error-icon");
+            const passwordErrorIcon = document.querySelector(".password .error-icon");
+            togglePassword.addEventListener("click", function () {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    togglePassword.classList.remove("fa-eye-slash");
+                    togglePassword.classList.add("fa-eye");
+                } else {
+                    passwordInput.type = "password";
+                    togglePassword.classList.remove("fa-eye");
+                    togglePassword.classList.add("fa-eye-slash");
+                }
+            });
+
+            form.onsubmit = async (e) => {
+                e.preventDefault();
+
+                const email = eInput.value.trim();
+                const password = pInput.value.trim();
+
+                if (email === "") {
+                    eField.classList.add("shake", "error");
+                    emailErrorIcon.style.display = "block";
+                } else {
+                    eField.classList.remove("shake", "error");
+                    emailErrorIcon.style.display = "none";
+                }
+
+                if (password === "") {
+                    pField.classList.add("shake", "error");
+                    passwordErrorIcon.style.display = "block";
+
+                } else {
+                    pField.classList.remove("shake", "error");
+                    passwordErrorIcon.style.display = "none";
+                }
+
+                setTimeout(() => {
+                    eField.classList.remove("shake");
+                    pField.classList.remove("shake");
+
+                }, 500);
+
+                if (email !== "" && password !== "") {
+                    try {
+                        const response = await fetch('/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email, password })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            window.location.href = '/dashboard.html'; 
+                        } else {
+                            console.error('Login unsuccessful', data.message);
+                            document.getElementById('errorMessage').innerText = data.message;
+                            document.getElementById('errorMessage').style.display = 'block';
+                        }
+                    } catch (error) {
+                        console.error('Error during login:', error);
+                        document.getElementById('errorMessage').innerText = 'Server error. Please try again later.';
+                        document.getElementById('errorMessage').style.display = 'block';
+                    }
+                }
+            };
+
+            eInput.onkeyup = () => {
+                if (eInput.value.trim() !== "") {
+                    eField.classList.add("valid");
+                    emailErrorIcon.style.display = "none";
+                } else {
+                    eField.classList.remove("valid");
+                    emailErrorIcon.style.display = "block";
+                }
+            };
+
+            pInput.onkeyup = () => {
+                if (pInput.value.trim() !== "") {
+                    pField.classList.add("valid");
+                    passwordErrorIcon.style.display = "none";
+                } else {
+                    pField.classList.remove("valid");
+                    passwordErrorIcon.style.display = "block";
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>
