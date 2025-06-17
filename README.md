@@ -20,7 +20,7 @@ A robust **user authentication system** built with **HTML/CSS/JavaScript** for t
 - 🔁 Token-based password reset
 - 🧪 RESTful API endpoints
 - 📱 Responsive UI design
-
+- 🧠 Basic form validation((required fields, email format, password length, etc.)
 
 ## 🚀 Getting Started
 
@@ -28,7 +28,7 @@ A robust **user authentication system** built with **HTML/CSS/JavaScript** for t
 2. Install dependencies
 3. Set up environment variables
 DB_CONNECTION=your_mongodb_connection_string
-EMAIL_USERNAME=youremail@gmail.com
+EMAIL_USERNAME=your_email
 EMAIL_PASSWORD=your_app_password
 PORT=3000
 5. Start the backend server
@@ -42,4 +42,8 @@ PORT=3000
 
 ![Screenshot 2025-06-17 161431](https://github.com/user-attachments/assets/241a7be2-fe8a-4c1b-88e5-eff12444a7e3)
 
-![demo](https://github.com/user-attachments/assets/19d64179-f37f-4877-9081-ed96175fea02)
+![Screenshot 2025-06-17 162030](https://github.com/user-attachments/assets/c71a1ccf-7d8b-4a19-b413-159798855200)
+
+![Screenshot 2025-06-17 162036](https://github.com/user-attachments/assets/497047fc-b24b-4166-acd2-b81a2f4af5cd)
+
+![demo](https://github.com/user-attachments/assets/e59414f4-51a8-4860-8690-fe85e4e0ac91)
